@@ -1,4 +1,4 @@
-# Alma Browser MCP
+# JavasRelay Browser MCP
 
 让 AI Agent 通过 MCP 协议控制你已经打开的 Chrome 浏览器 — 截图、点击、输入、读取页面、执行 JS，无需重启 Chrome。
 
@@ -50,7 +50,7 @@ deno task relay
 ```json
 {
   "mcpServers": {
-    "alma-browser": {
+    "javas-relay": {
       "command": "deno",
       "args": ["run", "--allow-net", "--allow-env", "/你的路径/chrome-browser-mcp/main.ts"],
       "env": {
@@ -74,7 +74,7 @@ deno task relay
 ```json
 {
   "mcpServers": {
-    "alma-browser": {
+    "javas-relay": {
       "command": "deno",
       "args": ["run", "--allow-net", "--allow-env", "/你的路径/chrome-browser-mcp/main.ts"],
       "env": {
@@ -93,7 +93,7 @@ deno task relay
 ```json
 {
   "mcpServers": {
-    "alma-browser": {
+    "javas-relay": {
       "command": "deno",
       "args": ["run", "--allow-net", "--allow-env", "/你的路径/chrome-browser-mcp/main.ts"],
       "env": {
@@ -145,6 +145,110 @@ deno task relay
 ```
 
 更换后需要：重新加载 Chrome 扩展 + 重启 Relay + 更新各 Agent 的 `RELAY_TOKEN`。
+
+## 开机自启（macOS）
+
+可以将 Relay 注册为 macOS 系统服务，开机自动启动，崩溃自动重启。
+
+### 安装服务
+
+```bash
+bash scripts/install-service.sh
+```
+
+### 卸载服务
+
+```bash
+bash scripts/uninstall-service.sh
+```
+
+### 管理命令
+
+```bash
+# 查看服务状态
+launchctl list | grep javasrelay
+
+# 手动停止
+launchctl unload ~/Library/LaunchAgents/com.javasrelay.browser-relay.plist
+
+# 手动启动
+launchctl load ~/Library/LaunchAgents/com.javasrelay.browser-relay.plist
+
+# 查看日志
+tail -f /tmp/javas-relay.log
+```
+
+> 注意：plist 中使用了绝对路径，如果项目目录或 Deno 路径变更，需要重新运行 `install-service.sh`。
+
+## 编译与部署
+
+编译后无需安装 Deno，直接运行单个二进制文件。
+
+### 编译
+
+```bash
+cd chrome-browser-mcp
+
+# 编译 Relay（常驻进程）
+deno task compile:relay    # 输出 javas-relay
+
+# 编译 MCP Server（Agent 调用）
+deno task compile:mcp      # 输出 javas-relay-mcp
+
+# 交叉编译（为其他平台编译）
+deno compile --allow-net --allow-env --target x86_64-apple-darwin --output javas-relay relay.ts       # Intel Mac
+deno compile --allow-net --allow-env --target aarch64-apple-darwin --output javas-relay relay.ts      # Apple Silicon Mac
+deno compile --allow-net --allow-env --target x86_64-unknown-linux-gnu --output javas-relay relay.ts  # Linux x64
+deno compile --allow-net --allow-env --target x86_64-pc-windows-msvc --output javas-relay.exe relay.ts # Windows x64
+```
+
+### 部署到新机器
+
+1. 将编译好的二进制和 Chrome 扩展复制到目标机器：
+
+```
+javas-relay           # Relay 二进制
+javas-relay-mcp       # MCP Server 二进制
+chrome-extension/     # Chrome 扩展目录
+scripts/              # 安装脚本
+```
+
+2. 安装 Chrome 扩展（同"快速开始"第 1 步）
+
+3. 将 Relay 放到系统路径并注册服务：
+
+```bash
+# 放到系统路径
+sudo cp javas-relay /usr/local/bin/
+
+# 生成 token（或使用自定义 token）
+export RELAY_TOKEN=$(openssl rand -hex 32)
+echo "你的 token: $RELAY_TOKEN"
+
+# 更新 chrome-extension/config.json 中的 token
+# 更新 scripts/com.javasrelay.browser-relay.plist 中的 token
+
+# 安装为系统服务
+bash scripts/install-service.sh
+```
+
+4. 配置 Agent（MCP Server 指向编译后的二进制）：
+
+```json
+{
+  "mcpServers": {
+    "javas-relay": {
+      "command": "/usr/local/bin/javas-relay-mcp",
+      "env": {
+        "RELAY_PORT": "23002",
+        "RELAY_TOKEN": "你的token"
+      }
+    }
+  }
+}
+```
+
+> 编译后的二进制不依赖 Deno，目标机器无需安装任何运行时。
 
 ## 开发
 

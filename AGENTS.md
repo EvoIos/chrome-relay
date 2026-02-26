@@ -1,4 +1,4 @@
-# Alma Browser MCP — 开发规范
+# JavasRelay Browser MCP — 开发规范
 
 ## 技术栈
 - Deno + TypeScript

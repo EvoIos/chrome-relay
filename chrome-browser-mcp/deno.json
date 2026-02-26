@@ -4,8 +4,8 @@
     "relay:dev": "deno run --watch --allow-net --allow-env relay.ts",
     "mcp": "deno run --allow-net --allow-env main.ts",
     "dev": "deno run --watch --allow-net --allow-env main.ts",
-    "compile:relay": "deno compile --allow-net --allow-env --output alma-relay relay.ts",
-    "compile:mcp": "deno compile --allow-net --allow-env --output alma-browser-mcp main.ts",
+    "compile:relay": "deno compile --allow-net --allow-env --output javas-relay relay.ts",
+    "compile:mcp": "deno compile --allow-net --allow-env --output javas-relay-mcp main.ts",
     "test": "deno test --allow-net --allow-env tests/",
     "test:unit": "deno test --allow-net --allow-env tests/browser-client_test.ts",
     "test:integration": "deno test --allow-net --allow-env tests/integration/"

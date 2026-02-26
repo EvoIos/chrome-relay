@@ -11,7 +11,7 @@ export async function startMcpServer(
   relay: RelayClient,
 ): Promise<void> {
   const server = new McpServer({
-    name: "alma-browser",
+    name: "javas-relay",
     version: "1.0.0",
   });
 

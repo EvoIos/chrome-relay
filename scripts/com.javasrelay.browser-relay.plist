@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.javasrelay.browser-relay</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/javas-relay</string>
+    </array>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>RELAY_PORT</key>
+        <string>23002</string>
+        <key>RELAY_TOKEN</key>
+        <string>9da60dff5bbf8da3c7000463f6320677a86a22e8c69a0a19070bda899029bd40</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/javas-relay.log</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/javas-relay.log</string>
+</dict>
+</plist>
