@@ -8,7 +8,7 @@ export interface Config {
 
 export function loadConfig(): Config {
   return {
-    port: Number(Deno.env.get("RELAY_PORT")) || 23001,
+    port: Number(Deno.env.get("RELAY_PORT")) || 23002,
     token: Deno.env.get("RELAY_TOKEN") ||
       "bd5d4a4354c66c6dae7c2e60a8d4025a4ca64a48d6f5bb8f0fb7106b74bbf2bf",
   };

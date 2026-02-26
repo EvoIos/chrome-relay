@@ -10,7 +10,7 @@ const PING_INTERVAL_MS = 20000;
 
 let connectionState = 'disconnected'; // 'disconnected' | 'connecting' | 'connected'
 let attachedTabs = new Set();
-let config = { port: 23001, token: '' };
+let config = { port: 23002, token: '' };
 let pingTimer = null;
 let lastPongTime = 0;
 

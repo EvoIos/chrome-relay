@@ -3,7 +3,7 @@
  */
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "@modelcontextprotocol/sdk/node_modules/zod/lib/index.js";
+import { z } from "npm:zod";
 import { browserClient } from "./browser-client.ts";
 
 export async function startMcpServer(): Promise<void> {
