@@ -1,0 +1,17 @@
+# Deno
+chrome-browser-mcp/deno.lock
+
+# Compiled binary
+chrome-browser-mcp/alma-browser-mcp
+chrome-browser-mcp/chrome-browser-mcp
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Kiro
+.kiro/
+
