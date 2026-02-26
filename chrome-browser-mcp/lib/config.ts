@@ -10,6 +10,6 @@ export function loadConfig(): Config {
   return {
     port: Number(Deno.env.get("RELAY_PORT")) || 23002,
     token: Deno.env.get("RELAY_TOKEN") ||
-      "bd5d4a4354c66c6dae7c2e60a8d4025a4ca64a48d6f5bb8f0fb7106b74bbf2bf",
+      "9da60dff5bbf8da3c7000463f6320677a86a22e8c69a0a19070bda899029bd40",
   };
 }

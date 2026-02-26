@@ -178,6 +178,3 @@ export class BrowserClient {
     }
   }
 }
-
-/** 全局单例 */
-export const browserClient = new BrowserClient();
