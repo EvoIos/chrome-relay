@@ -40,7 +40,7 @@ deno task start
       "command": "deno",
       "args": ["run", "--allow-net", "--allow-env", "/你的路径/chrome-browser-mcp/main.ts"],
       "env": {
-        "RELAY_PORT": "23001",
+        "RELAY_PORT": "23002",
         "RELAY_TOKEN": "bd5d4a4354c66c6dae7c2e60a8d4025a4ca64a48d6f5bb8f0fb7106b74bbf2bf"
       },
       "autoApprove": ["browser_list_tabs", "browser_status", "browser_screenshot"]
@@ -69,7 +69,7 @@ deno task start
 
 | 变量 | 默认值 | 说明 |
 |------|--------|------|
-| `RELAY_PORT` | `23001` | WebSocket 监听端口 |
+| `RELAY_PORT` | `23002` | WebSocket 监听端口 |
 | `RELAY_TOKEN` | config.json 中的值 | 认证 token |
 
 ### 更换 Token

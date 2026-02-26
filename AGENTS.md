@@ -7,7 +7,7 @@
 - @modelcontextprotocol/sdk (MCP)
 
 ## 项目结构
-- `alma-browser-mcp/` — 服务端代码
+- `chrome-browser-mcp/` — 服务端代码
 - `chrome-extension/` — Chrome 扩展（已有，不修改）
 
 ## 开发约定
