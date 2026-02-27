@@ -105,6 +105,20 @@ deno task relay
 }
 ```
 
+#### Codex CLI / Codex App
+
+`~/.codex/config.toml`（两者共用同一个配置文件）：
+
+```toml
+[mcp_servers.javas-relay]
+command = "deno"
+args = ["run", "--allow-net", "--allow-env", "/你的路径/chrome-browser-mcp/main.ts"]
+
+[mcp_servers.javas-relay.env]
+RELAY_PORT = "23002"
+RELAY_TOKEN = "你的token"
+```
+
 #### 其他 MCP 兼容 Agent
 
 任何支持 MCP stdio 协议的 Agent 都可以使用，配置模式相同：
@@ -249,6 +263,43 @@ bash scripts/install-service.sh
 ```
 
 > 编译后的二进制不依赖 Deno，目标机器无需安装任何运行时。
+
+## Claude CLI 配置
+
+```bash
+claude mcp add javas-relay \
+  -e RELAY_PORT=23002 \
+  -e RELAY_TOKEN=你的token \
+  -- deno run --allow-net --allow-env /绝对路径/chrome-browser-mcp/main.ts
+```
+
+管理命令：
+```bash
+claude mcp list              # 查看已配置的 MCP
+claude mcp remove javas-relay  # 移除
+```
+
+> 注意：`main.ts` 的路径必须是绝对路径，且与实际项目位置一致。Claude CLI 启动 MCP 进程时不会 cd 到项目目录，相对路径会导致 `Module not found` 错误。
+
+## 常见问题
+
+### MCP Server 在 Agent 中显示 failed
+
+1. 路径错误：确认 `main.ts` 的绝对路径正确（`ls /你的路径/chrome-browser-mcp/main.ts`）
+2. Relay 未启动：MCP Server 依赖 Relay 常驻进程，先确认 `deno task relay` 已运行
+3. Token 不匹配：`RELAY_TOKEN` 需要与 `chrome-extension/config.json` 中的 token 一致
+4. 查看详细日志：`claude --debug` 可以看到 MCP 启动的具体错误输出
+
+### Chrome 扩展显示 OFF
+
+- Relay 未启动，运行 `deno task relay`
+- 端口或 token 不匹配，检查 `chrome-extension/config.json` 与环境变量是否一致
+
+### 命令超时
+
+- Chrome 扩展的 Service Worker 可能已休眠（MV3 限制，空闲 30 秒后休眠）
+- 扩展会通过 `chrome.alarms` 自动重连，等几秒重试即可
+- 如果持续超时，在 `chrome://extensions/` 点击扩展的 Service Worker 链接查看控制台日志
 
 ## 开发
 
